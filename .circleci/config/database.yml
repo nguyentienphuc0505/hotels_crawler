@@ -1,0 +1,4 @@
+test:
+  adapter: postgresql
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  database: hotels_crawler_test

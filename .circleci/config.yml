@@ -1,0 +1,53 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/ruby:2.6.0
+        environment:
+          PG_HOST: localhost
+          PG_USER: ubuntu
+          BUNDLER_VERSION: 1.17.3
+          RAILS_ENV: test
+          RACK_ENV: test
+          DATABASE_URL: "postgres://ubuntu@localhost:5432/hotels_crawler_test"
+      - image: postgres:9.6.2-alpine
+        environment:
+          POSTGRES_USER: ubuntu
+          POSTGRES_DB: hotels_crawler_test
+
+    working_directory: ~/hotels_crawler
+
+    steps:
+      - checkout
+
+      - run:
+          name: Init config files
+          command: |
+            mv .circleci/config/database.yml config/database.yml
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "Gemfile.lock" }}
+          - v1-dependencies-{{ checksum "yarn.lock" }}
+          - v1-dependencies-
+      - run:
+          name: Wait for db
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+      - run:
+          name: install dependencies
+          command: |
+            gem install bundler
+            bundle install --jobs=4 --retry=3 --path vendor/bundle
+      - save_cache:
+          paths:
+            - ./vendor/bundle
+          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+      - run:
+          name: Database setup
+          command: |
+            bin/rails db:create
+            bin/rails db:schema:load --trace
+      - run:
+          name: run tests
+          command: |
+            bundle exec rubocop
+            bundle exec rspec
