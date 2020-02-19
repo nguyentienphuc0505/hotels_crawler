@@ -16,10 +16,8 @@ jobs:
           POSTGRES_DB: hotels_crawler_test
 
     working_directory: ~/hotels_crawler
-
     steps:
       - checkout
-
       - run:
           name: Init config files
           command: |
