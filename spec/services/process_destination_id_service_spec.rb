@@ -6,12 +6,13 @@ RSpec.describe ProcessDestinationIdService, type: :service do
   describe '#process' do
     let(:new_destination_id) { Faker::Number.digit }
     let(:data) { {} }
-    let(:subject) { described_class.new(data, hotel).process }
+    let(:keys) { 'des' }
+    let(:subject) { described_class.new(data, hotel, keys).process }
 
     before do
       allow_any_instance_of(described_class)
         .to receive(:extract_value_from_data)
-        .with(described_class::KEYS)
+        .with(keys)
         .and_return(new_destination_id)
     end
 

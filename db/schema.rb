@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_200_218_150_936) do
+ActiveRecord::Schema.define(version: 20_200_220_144_047) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -26,5 +26,12 @@ ActiveRecord::Schema.define(version: 20_200_218_150_936) do
     t.jsonb 'images', default: {}
     t.string 'booking_conditions', default: [], array: true
     t.index ['hotel_id'], name: 'index_hotels_on_hotel_id', unique: true
+  end
+
+  create_table 'suppliers', force: :cascade do |t|
+    t.string 'source', null: false
+    t.jsonb 'key_collection', default: {}
+    t.string 'imported_ids', default: [], array: true
+    t.index ['source'], name: 'index_suppliers_on_source', unique: true
   end
 end

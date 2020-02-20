@@ -6,12 +6,13 @@ RSpec.describe ProcessNameService, type: :service do
   describe '#process' do
     let(:new_name) { Faker::Lorem.word }
     let(:data) { {} }
-    let(:subject) { described_class.new(data, hotel).process }
+    let(:keys) { 'name' }
+    let(:subject) { described_class.new(data, hotel, keys).process }
 
     before do
       allow_any_instance_of(described_class)
         .to receive(:extract_value_from_data)
-        .with(described_class::KEYS)
+        .with(keys)
         .and_return(new_name)
     end
 

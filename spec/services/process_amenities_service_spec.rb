@@ -8,17 +8,24 @@ RSpec.describe ProcessAmenitiesService, type: :service do
     let(:new_room_amenities) { %w[c d e] }
     let(:data) { {} }
     let(:hotel) { build(:hotel) }
-    let(:subject) { described_class.new(data, hotel).process }
+    let(:keys) do
+      {
+
+        'general' => 'general',
+        'room' => 'room'
+      }
+    end
+    let(:subject) { described_class.new(data, hotel, keys).process }
 
     before do
       allow_any_instance_of(described_class)
         .to receive(:extract_values_from_data)
-        .with(described_class::GENERAL_KEYS)
+        .with('general')
         .and_return(new_general_amenities)
 
       allow_any_instance_of(described_class)
         .to receive(:extract_values_from_data)
-        .with(described_class::ROOM_KEYS)
+        .with('room')
         .and_return(new_room_amenities)
     end
 

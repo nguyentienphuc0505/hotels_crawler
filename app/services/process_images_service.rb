@@ -13,11 +13,11 @@ class ProcessImagesService < BaseService
 
   def process_images_for(type)
     current_images = hotel.images[type] || []
-    new_images = extract_values_from_data(["images.#{type}"]) do |items|
+    new_images = extract_values_from_data(keys.try(:[], type)) do |items|
       items.map do |item|
         {
-          link: extract_value_from_data(%w[link url], item),
-          description: extract_value_from_data(%w[caption description], item)
+          link: extract_value_from_data(keys['item'].try(:[], 'link'), item),
+          description: extract_value_from_data(keys['item'].try(:[], 'description'), item)
         }
       end
     end

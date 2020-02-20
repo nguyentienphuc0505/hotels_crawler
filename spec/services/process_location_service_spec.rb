@@ -5,37 +5,46 @@ require 'rails_helper'
 RSpec.describe ProcessLocationService, type: :service do
   describe '#process' do
     let(:data) { {} }
-    let(:subject) { described_class.new(data, hotel).process }
+    let(:subject) { described_class.new(data, hotel, keys).process }
     let(:new_lat) { 0 }
     let(:new_lng) { 0 }
     let(:new_address) { Faker::Lorem.sentence }
     let(:new_city) { Faker::Lorem.word }
     let(:new_country) { Faker::Lorem.word }
+    let(:keys) do
+      {
+        'lat' => 'Latitude',
+        'lng' => 'Longitude',
+        'address' => 'Address',
+        'city' => 'City',
+        'country' => 'Country'
+      }
+    end
 
     before do
       allow_any_instance_of(described_class)
         .to receive(:extract_value_from_data)
-        .with(described_class::LATTITUDE_KEYS)
+        .with('Latitude')
         .and_return(new_lat)
 
       allow_any_instance_of(described_class)
         .to receive(:extract_value_from_data)
-        .with(described_class::LONGTITUDE_KEYS)
+        .with('Longitude')
         .and_return(new_lng)
 
       allow_any_instance_of(described_class)
         .to receive(:extract_value_from_data)
-        .with(described_class::ADDRESS_KEYS)
+        .with('Address')
         .and_return(new_address)
 
       allow_any_instance_of(described_class)
         .to receive(:extract_value_from_data)
-        .with(described_class::CITY_KEYS)
+        .with('City')
         .and_return(new_city)
 
       allow_any_instance_of(described_class)
         .to receive(:extract_value_from_data)
-        .with(described_class::COUNTRY_KEYS)
+        .with('Country')
         .and_return(new_country)
     end
 

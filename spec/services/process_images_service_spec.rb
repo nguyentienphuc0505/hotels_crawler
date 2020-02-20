@@ -9,7 +9,8 @@ RSpec.describe ProcessImagesService, type: :service do
       let(:new_image) { { link: 'link_2', caption: 'description_2' } }
       let(:hotel) { build :hotel, images: { rooms: [image] } }
       let(:data) { {} }
-      let(:subject) { described_class.new(data, hotel).process }
+      let(:keys) { 'keys' }
+      let(:subject) { described_class.new(data, hotel, keys).process }
 
       before do
         allow_any_instance_of(described_class).to receive(:extract_values_from_data).and_return([new_image])

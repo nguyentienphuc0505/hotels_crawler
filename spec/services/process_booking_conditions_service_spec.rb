@@ -6,12 +6,13 @@ RSpec.describe ProcessBookingConditionsService, type: :service do
   describe '#process' do
     let(:new_booking_conditions) { %w[1 2] }
     let(:data) { {} }
-    let(:subject) { described_class.new(data, hotel).process }
+    let(:keys) { 'booking_condition' }
+    let(:subject) { described_class.new(data, hotel, keys).process }
 
     before do
       allow_any_instance_of(described_class)
         .to receive(:extract_values_from_data)
-        .with(described_class::KEYS)
+        .with(keys)
         .and_return(new_booking_conditions)
     end
 

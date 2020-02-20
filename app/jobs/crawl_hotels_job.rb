@@ -4,6 +4,11 @@ require 'net/http'
 
 class CrawlHotelsJob < ApplicationJob
   def perform
-    CrawlHotelsService.new.process
+    Supplier.find_in_batches do |suppliers|
+      suppliers.map { |s| CrawlHotelsService.new(s).process }
+    end
+
+    imported_ids = Supplier.pluck(:imported_ids).flatten.uniq
+    Hotel.where.not(hotel_id: imported_ids).delete_all
   end
 end

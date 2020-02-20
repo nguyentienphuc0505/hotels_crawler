@@ -1,21 +1,18 @@
 # frozen_string_literal: true
 
 class ProcessAmenitiesService < BaseService
-  GENERAL_KEYS = ['Facilities', 'amenities', 'amenities.general'].freeze
-  ROOM_KEYS = ['amenities.amenities'].freeze
-
   def process
     {
-      general: process_amenities_for('general', GENERAL_KEYS),
-      room: process_amenities_for('room', ROOM_KEYS)
+      general: process_amenities_for('general'),
+      room: process_amenities_for('room')
     }
   end
 
   private
 
-  def process_amenities_for(type, keys)
+  def process_amenities_for(type)
     current_value = hotel['amenities'].try(:[], type) || []
-    new_general_amenities = extract_values_from_data(keys) do |items|
+    new_general_amenities = extract_values_from_data(keys.try(:[], type)) do |items|
       items.map do |item|
         item.underscore.humanize.downcase.strip
       end

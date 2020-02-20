@@ -2,9 +2,10 @@
 
 require 'rails_helper'
 
-RSpec.describe CrawlHotelsService, type: :service do
+RSpec.describe CrawlHotelsJob, type: :job do
   describe '#process' do
     context 'when crawl hotels and removes unimported hotel' do
+      let!(:hotel) { create :hotel }
       let(:supplier) do
         create(:supplier, key_collection: {
                  hotel_id: 'Id',
@@ -35,7 +36,7 @@ RSpec.describe CrawlHotelsService, type: :service do
       end
 
       it 'creates new hotel' do
-        expect { described_class.new(supplier).process }.to change(Hotel, :count).by(3)
+        expect { described_class.perform_now }.to change(Hotel, :count).by(2)
       end
     end
   end

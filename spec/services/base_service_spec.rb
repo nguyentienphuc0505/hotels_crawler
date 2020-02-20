@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe BaseService, type: :service do
   describe '#extract_value_from_data' do
-    let(:subject) { described_class.new(source, nil).extract_value_from_data(keys) }
+    let(:subject) { described_class.new(source, nil, nil).extract_value_from_data(keys) }
 
     context 'extract data for source 1' do
       let(:source) do
@@ -12,7 +12,7 @@ RSpec.describe BaseService, type: :service do
       end
 
       context 'extract name' do
-        let(:keys) { %w[Name hotel_name name] }
+        let(:keys) { 'Name' }
 
         it 'returns correct value' do
           expect(subject).to eq 'Beach Villas Singapore'
@@ -20,7 +20,7 @@ RSpec.describe BaseService, type: :service do
       end
 
       context 'extract destination id' do
-        let(:keys) { %w[DestinationId destination_id destination] }
+        let(:keys) { 'DestinationId' }
 
         it 'returns correct value' do
           expect(subject).to eq 5432
@@ -28,7 +28,7 @@ RSpec.describe BaseService, type: :service do
       end
 
       context 'extract booking conditions' do
-        let(:keys) { %w[details Description info] }
+        let(:keys) { 'Description' }
 
         it 'returns correct value' do
           expect(subject).to eq '  This 5 star hotel is located on the coastline of Singapore.'
@@ -36,7 +36,7 @@ RSpec.describe BaseService, type: :service do
       end
 
       context 'extract lat' do
-        let(:keys) { %w[Latitude lat] }
+        let(:keys) { 'Latitude' }
 
         it 'returns correct value' do
           expect(subject).to eq 1.264751
@@ -44,7 +44,7 @@ RSpec.describe BaseService, type: :service do
       end
 
       context 'extract address' do
-        let(:keys) { ['Address', 'address', 'location.address'] }
+        let(:keys) { 'Address' }
 
         it 'returns correct value' do
           expect(subject).to eq ' 8 Sentosa Gateway, Beach Villas '
@@ -58,7 +58,7 @@ RSpec.describe BaseService, type: :service do
       end
 
       context 'extract name' do
-        let(:keys) { %w[Name hotel_name name] }
+        let(:keys) { 'hotel_name' }
 
         it 'returns correct value' do
           expect(subject).to eq 'Beach Villas Singapore'
@@ -66,7 +66,7 @@ RSpec.describe BaseService, type: :service do
       end
 
       context 'extract destination id' do
-        let(:keys) { %w[DestinationId destination_id destination] }
+        let(:keys) { 'destination_id' }
 
         it 'returns correct value' do
           expect(subject).to eq 5432
@@ -74,7 +74,7 @@ RSpec.describe BaseService, type: :service do
       end
 
       context 'extract description' do
-        let(:keys) { %w[details Description info] }
+        let(:keys) { 'details' }
 
         it 'returns correct value' do
           expect(subject).to eq 'Surrounded by tropical gardens, these upscale villas in elegant '\
@@ -89,7 +89,7 @@ RSpec.describe BaseService, type: :service do
       end
 
       context 'extract address' do
-        let(:keys) { ['Address', 'address', 'location.address'] }
+        let(:keys) { 'location.address' }
 
         it 'returns correct value' do
           expect(subject).to eq '8 Sentosa Gateway, Beach Villas, 098269'
@@ -103,7 +103,7 @@ RSpec.describe BaseService, type: :service do
       end
 
       context 'extract name' do
-        let(:keys) { %w[Name hotel_name name] }
+        let(:keys) { 'name' }
 
         it 'returns correct value' do
           expect(subject).to eq 'Beach Villas Singapore'
@@ -111,7 +111,7 @@ RSpec.describe BaseService, type: :service do
       end
 
       context 'extract destination id' do
-        let(:keys) { %w[DestinationId destination_id destination] }
+        let(:keys) { 'destination' }
 
         it 'returns correct value' do
           expect(subject).to eq 5432
@@ -119,7 +119,7 @@ RSpec.describe BaseService, type: :service do
       end
 
       context 'extract address' do
-        let(:keys) { ['Address', 'address', 'location.address'] }
+        let(:keys) { 'address' }
 
         it 'returns correct value' do
           expect(subject).to eq '8 Sentosa Gateway, Beach Villas, 098269'
@@ -129,7 +129,7 @@ RSpec.describe BaseService, type: :service do
   end
 
   describe '#extract_values_from_data' do
-    let(:subject) { described_class.new(source, nil).extract_values_from_data(keys) }
+    let(:subject) { described_class.new(source, nil, nil).extract_values_from_data(keys) }
 
     context 'extract data for source 1' do
       let(:source) do
@@ -137,7 +137,7 @@ RSpec.describe BaseService, type: :service do
       end
 
       context 'extract booking conditions' do
-        let(:keys) { %w[booking_conditions] }
+        let(:keys) { 'booking_conditions' }
 
         it 'returns correct value' do
           expect(subject.count).to eq 0
@@ -145,7 +145,7 @@ RSpec.describe BaseService, type: :service do
       end
 
       context 'extract amenities' do
-        let(:keys) { %w[Facilities amenities amenities.general] }
+        let(:keys) { 'Facilities' }
 
         it 'returns correct value' do
           expect(subject).to match_array ['Pool', 'BusinessCenter', 'WiFi ', 'DryCleaning', ' Breakfast']
@@ -159,7 +159,7 @@ RSpec.describe BaseService, type: :service do
       end
 
       context 'extract booking conditions' do
-        let(:keys) { %w[booking_conditions] }
+        let(:keys) { 'booking_conditions' }
 
         it 'returns correct value' do
           expect(subject.count).to eq 5
@@ -173,7 +173,7 @@ RSpec.describe BaseService, type: :service do
       end
 
       context 'extract booking conditions' do
-        let(:keys) { %w[booking_conditions] }
+        let(:keys) { 'booking_conditions' }
 
         it 'returns correct value' do
           expect(subject.count).to eq 5
